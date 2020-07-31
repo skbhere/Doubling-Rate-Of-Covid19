@@ -88,6 +88,7 @@ def create_figure(x):
 @app.route('/data',methods=['GET', 'POST'])
 def data():
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
+    df=df.loc[df['State'] == "Tamil Nadu"]
     districts = set(df["District"])
     districts = list(districts)
     districts = sorted(districts)
