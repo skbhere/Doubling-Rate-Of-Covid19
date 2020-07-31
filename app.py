@@ -85,6 +85,46 @@ def create_figure(x):
                   fontsize=10,)
                   #color=label_color_list[i])
     return fig
+@app.route('/data',methods=['GET', 'POST'])
+def data():
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
+    districts = set(df["District"])
+    districts = list(districts)
+    districts = sorted(districts)
+    d=doublerate("Chennai")
+    # for lists in districts:
+    #     d[lists] = doublerate(lists)
+    d.to_csv("District_Doubling_Rate.csv")
+    return render_template('data.html')
+def doublerate(name):
+  df= pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
+  df1=df.loc[df['District'] == name ]
+  df1.tail()
+  T1=df1['Confirmed']
+  an = 6
+  reminder = (len(T1)%an)
+  if reminder != 0 :
+    T1 = T1[0:-reminder]
+  re = ((len(T1))// an )
+  Week=range(0,re)
+  T1 = T1.to_numpy()
+  T1=T1.reshape(re,an)
+  double =  []
+  ddouble=[]
+  print(len(T1))
+  for n in range(0,len(T1)):
+    l2 = np.log(2)
+    Diff = np.log(T1[n][an-1]/T1[n][0])
+    V= l2*(an-1)/Diff
+    double.append(V)
+  ddouble.append(double)
+  WL = df['Date']
+  WL=WL[6::an]
+  dict1={
+          name : double,
 
+    }
+  DRate=pd.DataFrame(dict1)
+  return DRate
 if __name__ == "__main__":
     app.run(debug=True)
