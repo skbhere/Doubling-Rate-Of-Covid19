@@ -92,10 +92,15 @@ def data():
     districts = list(districts)
     districts = sorted(districts)
     d=doublerate("Chennai")
-    # for lists in districts:
-    #     d[lists] = doublerate(lists)
+    for lists in districts:
+        d[lists] = doublerate(lists)
     d.to_csv("District_Doubling_Rate.csv")
-    return render_template('data.html')
+    #return render_template('data.html')
+    return Response(
+       d.to_csv(),
+       mimetype="text/csv",
+       headers={"Content-disposition":
+       "attachment; filename=doublingrate.csv"})
 def doublerate(name):
   df= pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
   df1=df.loc[df['District'] == name ]
