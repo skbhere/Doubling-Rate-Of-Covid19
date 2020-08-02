@@ -167,7 +167,7 @@ def Me (x):
     df1.loc[:,("Daily Confirmed")] = DConfirmed
     #df1['Me'] = df1['Recovered'] / df1['Active']
     df1.loc[:,("Me")] = df1.loc[:, ('Recovered')] / df1.loc[:, ('Active')]
-    df1.loc[:, ("Na")] = df1.loc[:, ('Total Confirmed')] / df1.loc[:, ('Active')]
+    df1.loc[:, ("Na")] = df1.loc[:, ('Daily Confirmed')] / df1.loc[:, ('Active')]
     df1.loc[:,("Me")] = df1.loc[:,("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
     x=df1.loc[:,("Me")].mean()
     y = df1.loc[:, ("Na")].mean()
