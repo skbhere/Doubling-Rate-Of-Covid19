@@ -132,5 +132,39 @@ def doublerate(name):
     }
   DRate=pd.DataFrame(dict1)
   return DRate
+
+
+@app.route('/med',methods=['GET', 'POST'])
+def Med():
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
+    df=df.loc[df['State'] == "Tamil Nadu"]
+    districts = set(df["District"])
+    districts = list(districts)
+    districts = sorted(districts)
+    d=Me("Chennai")
+    for lists in districts:
+        d[lists] = Me(lists)
+    d.to_csv("Medical_Efficiency.csv")
+    #return render_template('data.html')
+    return Response(
+       d.to_csv(),
+       mimetype="text/csv",
+       headers={"Content-disposition":
+       "attachment; filename=MedicalEfficiency.csv"})
+def Me (x):
+    pd.options.mode.chained_assignment = None
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
+    name = x
+    df1 = df.loc[df['District'] == name]
+   # df1['Active'] = df1['Confirmed'] - df1['Recovered'] - df1['Deceased']
+    df1.loc[:,("Active")] = df1.loc[:, ('Confirmed')] - df1.loc[:, ('Recovered')] - df1.loc[:, ('Deceased')]
+    #df1['Me'] = df1['Recovered'] / df1['Active']
+    df1.loc[:,("Me")] = df1.loc[:, ('Recovered')] / df1.loc[:, ('Active')]
+    df1.loc[:,("Me")] = df1.loc[:,("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
+    a=df1.loc[:,("Me")].mean()
+    Me = pd.DataFrame({name: a, }, index=[0])
+    return Me
+
+
 if __name__ == "__main__":
     app.run(debug=True)
