@@ -158,7 +158,7 @@ def Me (x):
     df1 = df.loc[df['District'] == name]
    # df1['Active'] = df1['Confirmed'] - df1['Recovered'] - df1['Deceased']
     df1.loc[:,("Active")] = df1.loc[:, ('Confirmed')] - df1.loc[:, ('Recovered')] - df1.loc[:, ('Deceased')]
-    TConfirmed = list(df1["Total Confirmed"])
+    TConfirmed = list(df1["Confirmed"])
     DConfirmed = [None] * len(df1)
     i = 1
     while i < len(df1):
