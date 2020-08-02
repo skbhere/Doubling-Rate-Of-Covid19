@@ -158,10 +158,20 @@ def Me (x):
     df1 = df.loc[df['District'] == name]
    # df1['Active'] = df1['Confirmed'] - df1['Recovered'] - df1['Deceased']
     df1.loc[:,("Active")] = df1.loc[:, ('Confirmed')] - df1.loc[:, ('Recovered')] - df1.loc[:, ('Deceased')]
+    TConfirmed = list(df1["Total Confirmed"])
+    DConfirmed = [None] * len(df1)
+    i = 1
+    while i < len(df1):
+        DConfirmed[i] = TConfirmed[i] - TConfirmed[i - 1]
+        i += 1
+    df1.loc[:,("Daily Confirmed")] = DConfirmed
     #df1['Me'] = df1['Recovered'] / df1['Active']
     df1.loc[:,("Me")] = df1.loc[:, ('Recovered')] / df1.loc[:, ('Active')]
+    df1.loc[:, ("Na")] = df1.loc[:, ('Total Confirmed')] / df1.loc[:, ('Active')]
     df1.loc[:,("Me")] = df1.loc[:,("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
-    a=df1.loc[:,("Me")].mean()
+    x=df1.loc[:,("Me")].mean()
+    y = df1.loc[:, ("Na")].mean()
+    a=x/y
     Me = pd.DataFrame({name: a, }, index=[0])
     return Me
 
