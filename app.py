@@ -141,10 +141,10 @@ def Med():
     districts = set(df["District"])
     districts = list(districts)
     districts = sorted(districts)
-    d=Me("Chennai")
+    #d=Me("Chennai")
     for lists in districts:
         d[lists] = Me(lists)
-    d.to_csv("Medical_Efficiency.csv")
+    d=d.tranpose()
     #return render_template('data.html')
     return Response(
        d.to_csv(),
@@ -178,9 +178,27 @@ def Me (x):
     y = df1.loc[:, ("Na")].mean()
     a=x/y
     df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
+    print (df1.loc[:, ("Ratio")].mean())
     Me = pd.DataFrame({name: a, }, index=[0])
     return Me
-
+# @app.route("/tables")
+# def show_tables():
+#     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
+#     df = df.loc[df['State'] == "Tamil Nadu"]
+#     districts = set(df["District"])
+#     districts = list(districts)
+#     districts = sorted(districts)
+#     d = Me("Chennai")
+#     for lists in districts:
+#         d[lists] = Me(lists)
+#     d.to_csv("Medical_Efficiency.csv")
+#     data = d.transpose()
+#     # data.set_index(['Name'], inplace=True)
+#     # data.index.name= "City"
+#     females = data.loc[data.Gender=='f']
+#     males = data.loc[data.Gender=='m']
+#     return render_template('view.html',tables=[females.to_html(classes='female'), males.to_html(classes='male')],
+#     titles = ['na', 'Female surfers', 'Male surfers'])
 
 if __name__ == "__main__":
     app.run(debug=True)
