@@ -96,14 +96,10 @@ def data():
     for lists in districts:
         d[lists] = doublerate(lists)
     d.to_csv("District_Doubling_Rate.csv")
-    dname = list(d.columns)
-    value = d.loc[0, :].tolist()
-    type(value)
-    da = pd.DataFrame(list(zip(dname, value)),
-                      columns=['City', 'Value'])
+
     #return render_template('data.html')
     return Response(
-       da.to_csv(),
+       d.to_csv(),
        mimetype="text/csv",
        headers={"Content-disposition":
        "attachment; filename=doublingrate.csv"})
@@ -150,9 +146,14 @@ def Med():
     for lists in districts:
         d[lists] = Me(lists)
     d.to_csv("Medical_Efficiency.csv")
+    dname = list(d.columns)
+    value = d.loc[0, :].tolist()
+    type(value)
+    da = pd.DataFrame(list(zip(dname, value)),
+                      columns=['City', 'Value'])
     #return render_template('data.html')
     return Response(
-       d.to_csv(),
+       da.to_csv(),
        mimetype="text/csv",
        headers={"Content-disposition":
        "attachment; filename=MedicalEfficiency.csv"})
