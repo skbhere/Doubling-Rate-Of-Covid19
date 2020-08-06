@@ -145,12 +145,13 @@ def Med():
     d=Me("Chennai")
     for lists in districts:
         d[lists] = Me(lists)
-    d.to_csv("Medical_Efficiency.csv")
+
     dname = list(d.columns)
     value = d.loc[0, :].tolist()
     type(value)
     da = pd.DataFrame(list(zip(dname, value)),
                       columns=['City', 'Value'])
+    da.to_csv("Medical_Efficiency.csv")
     #return render_template('data.html')
     return Response(
        da.to_csv(),
