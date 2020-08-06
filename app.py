@@ -188,24 +188,19 @@ def Me (x):
     print (df1.loc[:, ("Ratio")].mean())
     Me = pd.DataFrame({name: a, }, index=[0])
     return Me
-# @app.route("/tables")
-# def show_tables():
-#     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
-#     df = df.loc[df['State'] == "Tamil Nadu"]
-#     districts = set(df["District"])
-#     districts = list(districts)
-#     districts = sorted(districts)
-#     d = Me("Chennai")
-#     for lists in districts:
-#         d[lists] = Me(lists)
-#     d.to_csv("Medical_Efficiency.csv")
-#     data = d.transpose()
-#     # data.set_index(['Name'], inplace=True)
-#     # data.index.name= "City"
-#     females = data.loc[data.Gender=='f']
-#     males = data.loc[data.Gender=='m']
-#     return render_template('view.html',tables=[females.to_html(classes='female'), males.to_html(classes='male')],
-#     titles = ['na', 'Female surfers', 'Male surfers'])
+@app.route("/recovery")
+def show_tables():
+    data = pd.read_csv("https://covid19-doublingrate.herokuapp.com/med")
+    data = data[data.City != 'Unknown']
+    data = data.drop(["Unnamed: 0"], axis=1)
+    data = data.sort_values(by='Value', ascending=True)
+
+    # data.set_index(['Name'], inplace=True)
+    # data.index.name= "City"
+    # females = data.loc[data.Gender=='f']
+    # males = data.loc[data.Gender=='m']
+    return render_template('view.html',tables=[data.to_html(classes='data')],
+    titles = ['Medical Efficiency', 'Districwise Recovery / Admision'])
 
 if __name__ == "__main__":
     app.run(debug=True)
