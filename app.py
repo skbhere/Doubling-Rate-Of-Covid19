@@ -11,7 +11,7 @@ from matplotlib.figure import Figure
 import io
 import numpy as np
 import base64
-
+da = pd.DataFrame()
 app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -190,7 +190,8 @@ def Me (x):
     return Me
 @app.route("/recovery")
 def show_tables():
-    data = pd.read_csv("https://covid19-doublingrate.herokuapp.com/med")
+    #data = pd.read_csv("https://covid19-doublingrate.herokuapp.com/med")
+    data = Med()
     data = data[data.City != 'Unknown']
     data = data.drop(["Unnamed: 0"], axis=1)
     data = data.sort_values(by='Value', ascending=True)
