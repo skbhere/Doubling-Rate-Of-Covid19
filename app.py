@@ -141,10 +141,10 @@ def Med():
     districts = set(df["District"])
     districts = list(districts)
     districts = sorted(districts)
-    d = Me("Chennai")
+    d=pd.DataFrame()
     for lists in districts:
         d[lists] = Me(lists)
-    #d=d.tranpose()
+    d.to_csv("Medical_Efficiency.csv")
     #return render_template('data.html')
     return Response(
        d.to_csv(),
