@@ -228,14 +228,14 @@ def Mei():
         d[lists] = Meind(lists)
 
     dname = list(d.columns)
-    value = d.loc[0, :].tolist()
+    value = d.loc[-1, :].tolist()
     type(value)
     da = pd.DataFrame(list(zip(dname, value)),
                       columns=['City', 'Value'])
-    da.to_csv("Medical_Efficiency.csv")
+    d.to_csv("Medical_Efficiency.csv")
     #return render_template('data.html')
     return Response(
-       da.to_csv(),
+       d.to_csv(),
        mimetype="text/csv",
        headers={"Content-disposition":
        "attachment; filename=MedicalEfficiency.csv"})
