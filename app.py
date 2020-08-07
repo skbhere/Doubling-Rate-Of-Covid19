@@ -227,11 +227,11 @@ def Mei():
     for lists in districts:
         d[lists] = Meind(lists)
 
-    dname = list(d.columns)
-    value = d.loc[-1, :].tolist()
-    type(value)
-    da = pd.DataFrame(list(zip(dname, value)),
-                      columns=['City', 'Value'])
+    # dname = list(d.columns)
+    # value = d.loc[-1, :].tolist()
+    # type(value)
+    # da = pd.DataFrame(list(zip(dname, value)),
+    #                   columns=['City', 'Value'])
     d.to_csv("Medical_Efficiency.csv")
     #return render_template('data.html')
     return Response(
