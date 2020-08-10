@@ -334,12 +334,12 @@ def mx(x):
     # df1.loc[:,("Me")] = df1.loc[:,("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
     # df1.loc[:, ("Na")] = df1.loc[:, ("Na")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
     # df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
-    aa = df1.iloc[-1]['Daily Recovered']/df1.iloc[-1]['Active']
-    bb = df1.iloc[-1]['Daily Confirmed']/df1.iloc[-1]['Active']
+    aa = df1.iloc[-1]['Daily Recovered']
+    bb = df1.iloc[-1]['Daily Confirmed']
     a= aa/bb
     if np.isnan(a):
-        aa = df1.iloc[-2]['Daily Recovered'] / df1.iloc[-2]['Active']
-        bb = df1.iloc[-2]['Daily Confirmed'] / df1.iloc[-2]['Active']
+        aa = df1.iloc[-2]['Daily Recovered']
+        bb = df1.iloc[-2]['Daily Confirmed'] 
         a = aa / bb
 
     #a=round(a)
@@ -350,7 +350,7 @@ def table():
     Statename = request.args['messages']
     data= meddata(Statename)
     #data = Med()
-    
+
     data = data.sort_values(by='Value', ascending=True)
 
     return render_template('view1.html',tables=[data.to_html(classes='data')],
