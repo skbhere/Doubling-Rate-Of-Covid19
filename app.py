@@ -253,9 +253,9 @@ def md(x):
     a = df1.iloc[-1]['Ratio']
     if np.isnan(a):
         a= df1.iloc[-2]['Ratio']
-    a=a*10
-    a=round(a)
-    Me = pd.DataFrame({name: a,}, index=[0])
+
+    #a=round(a)
+    Me = pd.DataFrame({name:a*10 ,}, index=[0])
     return Me
 @app.route("/drec")
 def st():
