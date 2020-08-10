@@ -339,10 +339,10 @@ def mx(x):
     a= aa/bb
     if np.isnan(a):
         aa = df1.iloc[-2]['Daily Recovered']
-        bb = df1.iloc[-2]['Daily Confirmed'] 
+        bb = df1.iloc[-2]['Daily Confirmed']
         a = aa / bb
 
-    #a=round(a)
+    a=np.round_(a)
     Me = pd.DataFrame({name:a*10 ,}, index=[0])
     return Me
 @app.route("/dailyrec",methods=['GET', 'POST'])
