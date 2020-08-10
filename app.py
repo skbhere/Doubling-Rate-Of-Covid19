@@ -181,8 +181,11 @@ def Me (x):
     df1.loc[:, ("Na")] = df1.loc[:, ("Na")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
     x=df1.loc[:,("Me")].mean()
     y = df1.loc[:, ("Na")].mean()
-    a=x/y
+    #a=x/y
     df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
+    a = df1.iloc[-1]['Ratio']
+    if np.isnan(a):
+        a= df1.iloc[-2]['Ratio']
 
     Me = pd.DataFrame({name: a, }, index=[0])
     return Me
