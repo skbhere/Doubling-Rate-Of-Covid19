@@ -275,7 +275,7 @@ def st():
     # data.index.name= "City"
     # females = data.loc[data.Gender=='f']
     # males = data.loc[data.Gender=='m']
-    return render_template('view.html',tables=[data.to_html(classes='data')],
+    return render_template('view1.html',tables=[data.to_html(classes='data')],
     titles = ['Medical Efficiency', 'Districwise Recovery / Admision'])
 
 
