@@ -203,8 +203,8 @@ def show_tables():
 
 
 
-@app.route('/me',methods=['GET', 'POST'])
-def Meddaily():
+@app.route('/mex',methods=['GET', 'POST'])
+def Mex():
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
     df=df.loc[df['State'] == "Tamil Nadu"]
     districts = set(df["District"])
@@ -261,7 +261,7 @@ def Mei(x):
     return Me
 @app.route("/rec")
 def st():
-    data = pd.read_csv("https://covid19-doublingrate.herokuapp.com/me")
+    data = pd.read_csv("https://covid19-doublingrate.herokuapp.com/mex")
     #data = Med()
     data = data[data.City != 'Unknown']
     data = data.drop(["Unnamed: 0"], axis=1)
