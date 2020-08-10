@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Covid-19 Recovery Rate Statewise </title>
+</head>
+<body>
+<div class="myDiv">
+    <h1>Covid-19 Recovery rate / Admision  District wise for all of India</h1>
+  <h2>Select your State</h2>
+  <form method="post">
+    <p>
+<select name="dist">
+{% for d in dist %}
+  <option value="{{d}}">{{d}}</option>
+{% endfor %}
+</select>
+    </p>
+   <input type="submit">
+
+</form>
+    <footer style="font-size:11px" >Find the coder <a href="http://facebook.com/skb.here">here<a> </footer>
+</div>
+</body>
+</html>
