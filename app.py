@@ -342,7 +342,7 @@ def mx(x):
         bb = df1.iloc[-2]['Daily Confirmed']
         a = aa / bb
 
-    a=np.round_(a)
+    a=np.round_(a, decimals = 2)
     Me = pd.DataFrame({name:a*10 ,}, index=[0])
     return Me
 @app.route("/dailyrec",methods=['GET', 'POST'])
