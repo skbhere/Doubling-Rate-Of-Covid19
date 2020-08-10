@@ -223,9 +223,9 @@ def Mei():
     districts = set(df["District"])
     districts = list(districts)
     districts = sorted(districts)
-    d=Me("Chennai")
-    for lists in districts:
-        d[lists] = Meind(lists)
+    d=Meind("Chennai")
+    # for lists in districts:
+    #     d[lists] = Meind(lists)
 
     # dname = list(d.columns)
     # value = d.loc[-1, :].tolist()
