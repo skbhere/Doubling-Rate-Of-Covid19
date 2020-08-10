@@ -298,7 +298,7 @@ def meddata(xx):
     districts = set(df["District"])
     districts = list(districts)
     districts = sorted(districts)
-    d=mx(districts[0])
+    d=mx(districts[1])
     for lists in districts:
         d[lists] = mx(lists)
 
