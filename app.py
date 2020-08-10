@@ -156,7 +156,7 @@ def Med():
        mimetype="text/csv",
        headers={"Content-disposition":
        "attachment; filename=MedicalEfficiency.csv"})
-def Me (x):
+def Me(x):
     pd.options.mode.chained_assignment = None
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
     name = x
@@ -183,10 +183,6 @@ def Me (x):
     y = df1.loc[:, ("Na")].mean()
     a=x/y
     df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
-    #a = df1.iloc[-1]['Ratio']
-    # if np.isnan(a):
-    #     a= df1.iloc[-2]['Ratio']
-
     Me = pd.DataFrame({name: a, }, index=[0])
     return Me
 @app.route("/recovery")
@@ -208,7 +204,7 @@ def show_tables():
 
 
 @app.route('/me',methods=['GET', 'POST'])
-def Me():
+def Meddaily():
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
     df=df.loc[df['State'] == "Tamil Nadu"]
     districts = set(df["District"])
@@ -230,7 +226,7 @@ def Me():
        mimetype="text/csv",
        headers={"Content-disposition":
        "attachment; filename=MedicalEfficiency1.csv"})
-def Mei (x):
+def Mei(x):
     pd.options.mode.chained_assignment = None
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
     name = x
