@@ -219,7 +219,7 @@ def show_t():
 @app.route('/mei.csv',methods=['GET', 'POST'])
 def Mei():
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
-    #df=df.loc[df['State'] == "Tamil Nadu"]
+    df=df.loc[df['State'] == "Tamil Nadu"]
     districts = set(df["District"])
     districts = list(districts)
     districts = sorted(districts)
@@ -246,8 +246,6 @@ def Meind(x):
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
     name = x
     df1 = df.loc[df['District'] == name]
-    # df1['Active'] = df1['Confirmed'] - df1['Recovered'] - df1['Deceased']
-    df1.loc[:, ("Active")] = df1.loc[:, ('Confirmed')] - df1.loc[:, ('Recovered')] - df1.loc[:, ('Deceased')]
     TConfirmed = list(df1["Confirmed"])
     TRecovered = list(df1["Recovered"])
     DConfirmed = [None] * len(df1)
@@ -259,17 +257,12 @@ def Meind(x):
         i += 1
     df1.loc[:, ("Daily Confirmed")] = DConfirmed
     df1.loc[:, ("Daily Recovered")] = DRecovered
-    # df1['Me'] = df1['Recovered'] / df1['Active']
-    # df1.loc[:, ("Me")] = df1.loc[:, ('Daily Recovered')] / df1.loc[:, ('Active')]
-    # df1.loc[:, ("Na")] = df1.loc[:, ('Daily Confirmed')] / df1.loc[:, ('Active')]
-    # df1.loc[:, ("Me")] = df1.loc[:, ("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
-    # df1.loc[:, ("Na")] = df1.loc[:, ("Na")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
     df1.loc[:, ("Ratio")] = (df1.loc[:, ('Daily Recovered')]) / (df1.loc[:, ('Daily Confirmed')])
     a= df1.iloc[-1]['Ratio']
-    if np.isnan(a) :
+    if np.isnan(a):
         a= df1.iloc[-2]['Ratio']
     Me = pd.DataFrame({name: round(a*10), }, index=[0])
-    #print(a)
+    print(a)
     return Me
 
 if __name__ == "__main__":
