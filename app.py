@@ -223,13 +223,13 @@ def Me():
     type(value)
     da = pd.DataFrame(list(zip(dname, value)),
                       columns=['City', 'Value'])
-    da.to_csv("Medical_Efficiency.csv")
+    da.to_csv("Medical_Efficiency1.csv")
     #return render_template('data.html')
     return Response(
        da.to_csv(),
        mimetype="text/csv",
        headers={"Content-disposition":
-       "attachment; filename=MedicalEfficiency.csv"})
+       "attachment; filename=MedicalEfficiency1.csv"})
 def Mei (x):
     pd.options.mode.chained_assignment = None
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
@@ -260,8 +260,8 @@ def Mei (x):
     a = df1.iloc[-1]['Ratio']
     if np.isnan(a):
         a= df1.iloc[-2]['Ratio']
-
-    Me = pd.DataFrame({name: round(a*10), }, index=[0])
+    a=round(a*10)
+    Me = pd.DataFrame({name: a, }, index=[0])
     return Me
 @app.route("/rec")
 def st():
