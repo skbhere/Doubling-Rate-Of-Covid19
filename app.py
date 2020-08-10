@@ -203,16 +203,16 @@ def show_tables():
 
 
 
-@app.route('/mex',methods=['GET', 'POST'])
-def Mex():
+@app.route('/mdata',methods=['GET', 'POST'])
+def mdata():
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
     df=df.loc[df['State'] == "Tamil Nadu"]
     districts = set(df["District"])
     districts = list(districts)
     districts = sorted(districts)
-    d=Mei("Chennai")
+    d=md("Chennai")
     for lists in districts:
-        d[lists] = Mei(lists)
+        d[lists] = md(lists)
 
     dname = list(d.columns)
     value = d.loc[0, :].tolist()
@@ -226,7 +226,7 @@ def Mex():
        mimetype="text/csv",
        headers={"Content-disposition":
        "attachment; filename=MedicalEfficiency.csv"})
-def Mei(x):
+def md(x):
     pd.options.mode.chained_assignment = None
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
     name = x
@@ -259,7 +259,7 @@ def Mei(x):
     a=round(a*10)
     Me = pd.DataFrame({name: a, }, index=[0])
     return Me
-@app.route("/rec")
+@app.route("/drec")
 def st():
     data = pd.read_csv("https://covid19-doublingrate.herokuapp.com/mex")
     #data = Med()
