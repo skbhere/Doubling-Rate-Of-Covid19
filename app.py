@@ -264,7 +264,7 @@ def Meind(x):
     # df1.loc[:, ("Na")] = df1.loc[:, ('Daily Confirmed')] / df1.loc[:, ('Active')]
     # df1.loc[:, ("Me")] = df1.loc[:, ("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
     # df1.loc[:, ("Na")] = df1.loc[:, ("Na")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
-    df1.loc[:, ("Ratio")] = (df1.loc[:, ('Daily Recovered')]/ df1.loc[:, ('Active')]) / (df1.loc[:, ('Daily Confirmed')]/df1.loc[:, ('Active')])
+    df1.loc[:, ("Ratio")] = (df1.loc[:, ('Daily Recovered')]) / (df1.loc[:, ('Daily Confirmed')])
     a= df1.iloc[-1]['Ratio']
     if np.isnan(a) :
         a= df1.iloc[-2]['Ratio']
