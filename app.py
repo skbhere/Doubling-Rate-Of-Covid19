@@ -224,8 +224,8 @@ def Mei():
     districts = list(districts)
     districts = sorted(districts)
     d=Meind("Chennai")
-    # for lists in districts:
-    #     d[lists] = Meind(lists)
+    for lists in districts:
+        d[lists] = Meind(lists)
 
     # dname = list(d.columns)
     # value = d.loc[-1, :].tolist()
@@ -268,8 +268,11 @@ def Meind(x):
     y = df1.loc[:, ("Na")].mean()
     #a = x / y
     df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
-    a= df1.loc[df1.index[-1], ("Ratio")]
-    Me = pd.DataFrame({name: a, }, index=[0])
+    a= df1.iloc[-1]['Ratio']
+    if np.isnan(a) :
+        a= df1.iloc[-2]['Ratio']
+    Me = pd.DataFrame({name: round(a*10), }, index=[0])
+    print(a)
     return Me
 
 if __name__ == "__main__":
