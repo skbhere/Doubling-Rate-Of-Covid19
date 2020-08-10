@@ -257,10 +257,10 @@ def Meind(x):
         i += 1
     df1.loc[:, ("Daily Confirmed")] = DConfirmed
     df1.loc[:, ("Daily Recovered")] = DRecovered
-    df1.loc[:, ("Ratio")] = (df1.loc[:, ('Daily Recovered')]) / (df1.loc[:, ('Daily Confirmed')])
-    a= df1.iloc[-1]['Ratio']
+    #df1.loc[:, ("Ratio")] = (df1.loc[:, ('Daily Recovered')]) / (df1.loc[:, ('Daily Confirmed')])
+    a= df1.iloc[-1]['Daily Confirmed']/df1.iloc[-1]['Daily Recovered']
     if np.isnan(a):
-        a= df1.iloc[-2]['Ratio']
+        a= df1.iloc[-2]['Daily Confirmed']/df1.iloc[-2]['Daily Recovered']
     Me = pd.DataFrame({name: round(a*10), }, index=[0])
     print(a)
     return Me
