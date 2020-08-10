@@ -261,7 +261,7 @@ def Mei (x):
     if np.isnan(a):
         a= df1.iloc[-2]['Ratio']
 
-    Me = pd.DataFrame({name: a, }, index=[0])
+    Me = pd.DataFrame({name: round(a*10), }, index=[0])
     return Me
 @app.route("/rec")
 def st():
@@ -276,7 +276,7 @@ def st():
     # females = data.loc[data.Gender=='f']
     # males = data.loc[data.Gender=='m']
     return render_template('view1.html',tables=[data.to_html(classes='data')],
-    titles = ['Medical Efficiency', 'Districwise Recovery / Admision'])
+    titles = ['Medical Efficiency', 'Districwise Recovery / 10 Admision'])
 
 
 

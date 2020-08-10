@@ -2,7 +2,7 @@
 <title>Simple tables</title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 <div class=page>
-  <h1>Medical Recovery per Admission </h1>
+  <h1>Medical Recovery for every 10 Admission </h1>
   {% for table in tables %}
     <h2>{{titles[loop.index]}}</h2>
     {{ table|safe }}
