@@ -298,7 +298,7 @@ def meddata(xx):
     districts = set(df["District"])
     districts = list(districts)
     districts = sorted(districts)
-    d=mx(districts[1])
+    d=mx(districts[0])
     for lists in districts:
         d[lists] = mx(lists)
 
@@ -334,9 +334,9 @@ def mx(x):
     df1.loc[:,("Me")] = df1.loc[:,("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
     df1.loc[:, ("Na")] = df1.loc[:, ("Na")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
     df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
-    a = df1.iloc[-1]['Ratio']
+    a = df1.iloc[-1]['Daily Recovered']/df1.iloc[-1]['Daily Confirmed']
     if np.isnan(a):
-        a= df1.iloc[-2]['Ratio']
+        a= df1.iloc[-2]['Daily Recovered']/df1.iloc[-2]['Daily Confirmed']
 
     #a=round(a)
     Me = pd.DataFrame({name:a*10 ,}, index=[0])
@@ -346,8 +346,8 @@ def table():
     Statename = request.args['messages']
     data= meddata(Statename)
     #data = Med()
-    data = data[data.City != 'Unknown']
-    data = data.drop(["Unnamed: 0"], axis=1)
+    # data = data[data.City != 'Unknown']
+    # data = data.drop(["Unnamed: 0"], axis=1)
     data = data.sort_values(by='Value', ascending=True)
 
     return render_template('view1.html',tables=[data.to_html(classes='data')],
