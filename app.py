@@ -203,10 +203,69 @@ def show_tables():
     # males = data.loc[data.Gender=='m']
     return render_template('view.html',tables=[data.to_html(classes='data')],
     titles = ['Medical Efficiency', 'Districwise Recovery / Admision'])
+################################################################################################################
 
+
+
+@app.route('/me',methods=['GET', 'POST'])
+def Me():
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
+    df=df.loc[df['State'] == "Tamil Nadu"]
+    districts = set(df["District"])
+    districts = list(districts)
+    districts = sorted(districts)
+    d=Mei("Chennai")
+    for lists in districts:
+        d[lists] = Mei(lists)
+
+    dname = list(d.columns)
+    value = d.loc[0, :].tolist()
+    type(value)
+    da = pd.DataFrame(list(zip(dname, value)),
+                      columns=['City', 'Value'])
+    da.to_csv("Medical_Efficiency.csv")
+    #return render_template('data.html')
+    return Response(
+       da.to_csv(),
+       mimetype="text/csv",
+       headers={"Content-disposition":
+       "attachment; filename=MedicalEfficiency.csv"})
+def Mei (x):
+    pd.options.mode.chained_assignment = None
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
+    name = x
+    df1 = df.loc[df['District'] == name]
+   # df1['Active'] = df1['Confirmed'] - df1['Recovered'] - df1['Deceased']
+    df1.loc[:,("Active")] = df1.loc[:, ('Confirmed')] - df1.loc[:, ('Recovered')] - df1.loc[:, ('Deceased')]
+    TConfirmed = list(df1["Confirmed"])
+    TRecovered = list(df1["Recovered"])
+    DConfirmed = [None] * len(df1)
+    DRecovered = [None] * len(df1)
+    i = 1
+    while i < len(df1):
+        DConfirmed[i] = TConfirmed[i] - TConfirmed[i - 1]
+        DRecovered[i] = TRecovered[i] - TRecovered[i - 1]
+        i += 1
+    df1.loc[:,("Daily Confirmed")] = DConfirmed
+    df1.loc[:, ("Daily Recovered")] = DRecovered
+    #df1['Me'] = df1['Recovered'] / df1['Active']
+    df1.loc[:,("Me")] = df1.loc[:, ('Daily Recovered')] / df1.loc[:, ('Active')]
+    df1.loc[:, ("Na")] = df1.loc[:, ('Daily Confirmed')] / df1.loc[:, ('Active')]
+    df1.loc[:,("Me")] = df1.loc[:,("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
+    df1.loc[:, ("Na")] = df1.loc[:, ("Na")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
+    x=df1.loc[:,("Me")].mean()
+    y = df1.loc[:, ("Na")].mean()
+    #a=x/y
+    df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
+    a = df1.iloc[-1]['Ratio']
+    if np.isnan(a):
+        a= df1.iloc[-2]['Ratio']
+
+    Me = pd.DataFrame({name: a, }, index=[0])
+    return Me
 @app.route("/rec")
-def show_t():
-    data = pd.read_csv("https://covid19-doublingrate.herokuapp.com/mei.csv")
+def st():
+    data = pd.read_csv("https://covid19-doublingrate.herokuapp.com/med")
     #data = Med()
     data = data[data.City != 'Unknown']
     data = data.drop(["Unnamed: 0"], axis=1)
@@ -219,54 +278,7 @@ def show_t():
     return render_template('view.html',tables=[data.to_html(classes='data')],
     titles = ['Medical Efficiency', 'Districwise Recovery / Admision'])
 
-@app.route('/mei.csv',methods=['GET', 'POST'])
-def Mei():
-    df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
-    df=df.loc[df['State'] == "Tamil Nadu"]
-    districts = set(df["District"])
-    districts = list(districts)
-    districts = sorted(districts)
-    d=Meind("Chennai")
-    for lists in districts:
-        d[lists] = Meind(lists)
 
-    # dname = list(d.columns)
-    # value = d.loc[-1, :].tolist()
-    # type(value)
-    # da = pd.DataFrame(list(zip(dname, value)),
-    #                   columns=['City', 'Value'])
-    d.to_csv("Medical_Efficiency.csv")
-    #return render_template('data.html')
-    return Response(
-       d.to_csv(),
-       mimetype="text/csv",
-       headers={"Content-disposition":
-       "attachment; filename=MedicalEfficiency.csv"})
-
-
-def Meind(x):
-    pd.options.mode.chained_assignment = None
-    df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
-    name = x
-    df1 = df.loc[df['District'] == name]
-    TConfirmed = list(df1["Confirmed"])
-    TRecovered = list(df1["Recovered"])
-    DConfirmed = [None] * len(df1)
-    DRecovered = [None] * len(df1)
-    i = 1
-    while i < len(df1):
-        DConfirmed[i] = TConfirmed[i] - TConfirmed[i - 1]
-        DRecovered[i] = TRecovered[i] - TRecovered[i - 1]
-        i += 1
-    df1.loc[:, ("Daily Confirmed")] = DConfirmed
-    df1.loc[:, ("Daily Recovered")] = DRecovered
-    #df1.loc[:, ("Ratio")] = (df1.loc[:, ('Daily Recovered')]) / (df1.loc[:, ('Daily Confirmed')])
-    a= df1.iloc[-1]['Daily Confirmed']/df1.iloc[-1]['Daily Recovered']
-    if np.isnan(a):
-        a= df1.iloc[-2]['Daily Confirmed']/df1.iloc[-2]['Daily Recovered']
-    Me = pd.DataFrame({name: round(a*10), }, index=[0])
-    #print(a)
-    return Me
 
 if __name__ == "__main__":
     app.run(debug=True)
