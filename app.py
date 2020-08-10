@@ -329,14 +329,18 @@ def mx(x):
     df1.loc[:,("Daily Confirmed")] = DConfirmed
     df1.loc[:, ("Daily Recovered")] = DRecovered
     #df1['Me'] = df1['Recovered'] / df1['Active']
-    df1.loc[:,("Me")] = df1.loc[:, ('Daily Recovered')] / df1.loc[:, ('Active')]
-    df1.loc[:, ("Na")] = df1.loc[:, ('Daily Confirmed')] / df1.loc[:, ('Active')]
-    df1.loc[:,("Me")] = df1.loc[:,("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
-    df1.loc[:, ("Na")] = df1.loc[:, ("Na")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
-    df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
-    a = df1.iloc[-1]['Daily Recovered']/df1.iloc[-1]['Daily Confirmed']
+    # df1.loc[:,("Me")] = df1.loc[:, ('Daily Recovered')] / df1.loc[:, ('Active')]
+    # df1.loc[:, ("Na")] = df1.loc[:, ('Daily Confirmed')] / df1.loc[:, ('Active')]
+    # df1.loc[:,("Me")] = df1.loc[:,("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
+    # df1.loc[:, ("Na")] = df1.loc[:, ("Na")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
+    # df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
+    aa = df1.iloc[-1]['Daily Recovered']/df1.iloc[-1]['Active']
+    bb = df1.iloc[-1]['Daily Confirmed']/df1.iloc[-1]['Active']
+    a= aa/bb
     if np.isnan(a):
-        a= df1.iloc[-2]['Daily Recovered']/df1.iloc[-2]['Daily Confirmed']
+        aa = df1.iloc[-2]['Daily Recovered'] / df1.iloc[-2]['Active']
+        bb = df1.iloc[-2]['Daily Confirmed'] / df1.iloc[-2]['Active']
+        a = aa / bb
 
     #a=round(a)
     Me = pd.DataFrame({name:a*10 ,}, index=[0])
