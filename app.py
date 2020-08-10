@@ -219,13 +219,13 @@ def Mex():
     type(value)
     da = pd.DataFrame(list(zip(dname, value)),
                       columns=['City', 'Value'])
-    da.to_csv("Medical_Efficiency1.csv")
+    da.to_csv("Medical_Efficiency.csv")
     #return render_template('data.html')
     return Response(
        da.to_csv(),
        mimetype="text/csv",
        headers={"Content-disposition":
-       "attachment; filename=MedicalEfficiency1.csv"})
+       "attachment; filename=MedicalEfficiency.csv"})
 def Mei(x):
     pd.options.mode.chained_assignment = None
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
@@ -267,10 +267,6 @@ def st():
     data = data.drop(["Unnamed: 0"], axis=1)
     data = data.sort_values(by='Value', ascending=True)
 
-    # data.set_index(['Name'], inplace=True)
-    # data.index.name= "City"
-    # females = data.loc[data.Gender=='f']
-    # males = data.loc[data.Gender=='m']
     return render_template('view1.html',tables=[data.to_html(classes='data')],
     titles = ['Medical Efficiency', 'Districwise Recovery / 10 Admision'])
 
