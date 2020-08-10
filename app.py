@@ -262,7 +262,7 @@ def Meind(x):
     if np.isnan(a):
         a= df1.iloc[-2]['Daily Confirmed']/df1.iloc[-2]['Daily Recovered']
     Me = pd.DataFrame({name: round(a*10), }, index=[0])
-    print(a)
+    #print(a)
     return Me
 
 if __name__ == "__main__":
