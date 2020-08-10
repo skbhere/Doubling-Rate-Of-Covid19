@@ -268,7 +268,7 @@ def Meind(x):
     y = df1.loc[:, ("Na")].mean()
     #a = x / y
     df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
-    a= df1.loc[:, ("Ratio")]
+    a= df1.loc[df1.index[-1], ("Ratio")]
     Me = pd.DataFrame({name: a, }, index=[0])
     return Me
 
