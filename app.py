@@ -350,8 +350,7 @@ def table():
     Statename = request.args['messages']
     data= meddata(Statename)
     #data = Med()
-    data = data[data.City != 'Unknown']
-    data = data.drop(["Unnamed: 0"], axis=1)
+    
     data = data.sort_values(by='Value', ascending=True)
 
     return render_template('view1.html',tables=[data.to_html(classes='data')],
