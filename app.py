@@ -315,6 +315,7 @@ def mx(x):
     df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
     name = x
     df1 = df.loc[df['District'] == name]
+    df1=df1.tail(3)
    # df1['Active'] = df1['Confirmed'] - df1['Recovered'] - df1['Deceased']
     df1.loc[:,("Active")] = df1.loc[:, ('Confirmed')] - df1.loc[:, ('Recovered')] - df1.loc[:, ('Deceased')]
     TConfirmed = list(df1["Confirmed"])
@@ -334,15 +335,15 @@ def mx(x):
     # df1.loc[:,("Me")] = df1.loc[:,("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
     # df1.loc[:, ("Na")] = df1.loc[:, ("Na")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
     # df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
-    aa = df1.iloc[-1]['Daily Recovered']
-    bb = df1.iloc[-1]['Daily Confirmed']
+    aa = df1.loc[:,("Daily Recovered")].mean()
+    bb = df1.loc[:,("Daily Confirmed")].mean()
     a= aa/bb
-    if np.isnan(a):
-        aa = df1.iloc[-2]['Daily Recovered']
-        bb = df1.iloc[-2]['Daily Confirmed']
-        a = aa / bb
-        if np.isnan(a):
-            a=1
+    # if np.isnan(a):
+    #     aa = df1.iloc[-2]['Daily Recovered']
+    #     bb = df1.iloc[-2]['Daily Confirmed']
+    #     a = aa / bb
+    #     if np.isnan(a):
+    #         a=1
 
     a=np.round_(a, decimals = 2)
     Me = pd.DataFrame({name:a*10 ,}, index=[0])
