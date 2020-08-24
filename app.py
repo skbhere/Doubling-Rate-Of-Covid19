@@ -436,7 +436,7 @@ def mxx(x):
     # #         a=1
 
     a=np.round_(v)
-    Me = pd.DataFrame({name:a*10 ,}, index=[0])
+    Me = pd.DataFrame({name:a ,}, index=[0])
     return Me
 @app.route("/drate",methods=['GET', 'POST'])
 def table1():
