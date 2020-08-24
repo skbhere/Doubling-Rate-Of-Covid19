@@ -411,7 +411,7 @@ def mxx(x):
     TConfirmed = list(df1["Confirmed"])
     l2 = np.log(2)
     Diff = np.log(TConfirmed[6] / TConfirmed[0])
-    v = l2 * (7) / Diff
+    v = l2 * (6) / Diff
     # i = 1
     # while i < len(df1):
     #     DConfirmed[i] = TConfirmed[i] - TConfirmed[i - 1]
