@@ -446,7 +446,7 @@ def table1():
 
     data = data.sort_values(by='Value', ascending=True)
 
-    return render_template('view1.html',tables=[data.to_html(classes='data',index=False)],
+    return render_template('view2.html',tables=[data.to_html(classes='data',index=False)],
     titles = ['Medical Efficiency', 'Districwise Recovery / 10 Admision'])
 if __name__ == "__main__":
     app.run(debug=True)
