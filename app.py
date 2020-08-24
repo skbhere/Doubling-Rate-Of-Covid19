@@ -358,6 +358,95 @@ def table():
 
     return render_template('view1.html',tables=[data.to_html(classes='data',index=False)],
     titles = ['Medical Efficiency', 'Districwise Recovery / 10 Admision'])
+###############################################Doubling rate steate wise ##########################################################################
 
+@app.route('/statedrate', methods=['GET', 'POST'])
+def statex():
+    if request.method == 'POST':
+        dis = request.form['dist']
+        return redirect(url_for('table1', messages=dis))
+    else:
+
+        df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
+        State =set(df["State"])
+        State=list(State)
+        State=sorted(State)
+        messages= State[0]
+        return render_template('stateindex1.html', dist=State)
+def post(self):
+    dis = self.request.get('d')
+    return redirect(url_for('table1', messages=dis))
+# @app.route('/state_dist',methods=['GET', 'POST'])
+# def state_dist():
+#
+#     return redirect(url_for('table', messages=df))
+
+@app.route('/meddata',methods=['GET', 'POST'])
+def meddatax(xx):
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
+    df=df.loc[df['State'] == xx]
+    districts = set(df["District"])
+    districts = list(districts)
+    districts = sorted(districts)
+    d=mxx(districts[0])
+    for lists in districts:
+        d[lists] = mxx(lists)
+
+    dname = list(d.columns)
+    value = d.loc[0, :].tolist()
+    type(value)
+    da = pd.DataFrame(list(zip(dname, value)),
+                      columns=['City', 'Value'])
+    da.to_csv("Medical_Efficiency.csv")
+    #return render_template('data.html')
+    return da
+def mxx(x):
+    pd.options.mode.chained_assignment = None
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/districts.csv")
+    name = x
+    df1 = df.loc[df['District'] == name]
+    df1=df1.tail(7)
+   # df1['Active'] = df1['Confirmed'] - df1['Recovered'] - df1['Deceased']
+    df1.loc[:,("Active")] = df1.loc[:, ('Confirmed')] - df1.loc[:, ('Recovered')] - df1.loc[:, ('Deceased')]
+    TConfirmed = list(df1["Confirmed"])
+    l2 = np.log(2)
+    Diff = np.log(TConfirmed[6] / TConfirmed[0])
+    v = l2 * (7) / Diff
+    # i = 1
+    # while i < len(df1):
+    #     DConfirmed[i] = TConfirmed[i] - TConfirmed[i - 1]
+    #     DRecovered[i] = TRecovered[i] - TRecovered[i - 1]
+    #     i += 1
+    # df1.loc[:,("Daily Confirmed")] = DConfirmed
+    # df1.loc[:, ("Daily Recovered")] = DRecovered
+    # #df1['Me'] = df1['Recovered'] / df1['Active']
+    # # df1.loc[:,("Me")] = df1.loc[:, ('Daily Recovered')] / df1.loc[:, ('Active')]
+    # # df1.loc[:, ("Na")] = df1.loc[:, ('Daily Confirmed')] / df1.loc[:, ('Active')]
+    # # df1.loc[:,("Me")] = df1.loc[:,("Me")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
+    # # df1.loc[:, ("Na")] = df1.loc[:, ("Na")].replace([np.inf, -np.inf], np.nan).dropna(axis=0)
+    # # df1.loc[:, ("Ratio")] = df1.loc[:, ('Me')] / df1.loc[:, ('Na')]
+    # aa = df1.loc[:,("Daily Recovered")].mean()
+    # bb = df1.loc[:,("Daily Confirmed")].mean()
+    # a= aa/bb
+    # # if np.isnan(a):
+    # #     aa = df1.iloc[-2]['Daily Recovered']
+    # #     bb = df1.iloc[-2]['Daily Confirmed']
+    # #     a = aa / bb
+    # #     if np.isnan(a):
+    # #         a=1
+
+    a=np.round_(v)
+    Me = pd.DataFrame({name:a*10 ,}, index=[0])
+    return Me
+@app.route("/drate",methods=['GET', 'POST'])
+def table1():
+    Statename = request.args['messages']
+    data= meddatax(Statename)
+    #data = Med()
+
+    data = data.sort_values(by='Value', ascending=True)
+
+    return render_template('view1.html',tables=[data.to_html(classes='data',index=False)],
+    titles = ['Medical Efficiency', 'Districwise Recovery / 10 Admision'])
 if __name__ == "__main__":
     app.run(debug=True)
